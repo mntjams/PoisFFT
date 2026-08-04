@@ -2,10 +2,11 @@
 
 set -ueo pipefail
 
-EXEC_DIR="./bin/gcc"
-RESULT_DIR="${EXEC_DIR}/results"
 
+EXEC_DIR="./bin/gcc"
 EXEC="${EXEC_DIR}/benchmark"
+
+RESULT_DIR="${1}/results}"
 
 # Benchmark parameters
 ITERS=3
