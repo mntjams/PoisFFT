@@ -6,7 +6,7 @@ set -ueo pipefail
 EXEC_DIR="./bin/gcc"
 EXEC="${EXEC_DIR}/benchmark"
 
-RESULT_DIR="${1}/results}"
+RESULT_DIR="${1}"
 
 # Benchmark parameters
 ITERS=3
@@ -92,7 +92,12 @@ for prec in "float" "double"; do
 
                 OUT_FILE="${RESULT_DIR}/poisfft_local_${prec}_dim${dim}_${nonunif_str}_${bc_name}.csv"
 
-                    echo "=========================================================="
+                if [ -f "$OUT_FILE" ]; then
+                    echo "Skipping $OUT_FILE (Already completed)"
+                    continue
+                fi
+
+                echo "=========================================================="
                 echo "Running... Precision: $prec | Dim: $dim | NonuniformZ: $nonunif_val | BCs: $bc_args"
 
                 $EXEC $prec $dim $nonunif_val $ITERS $GRID_START $GRID_END $GRID_STEP "$OUT_FILE" $bc_args
