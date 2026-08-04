@@ -246,12 +246,16 @@ else:
     ctestobj = env.StaticObject(CFLAGS='-O3 -g'+debug_flag,target='../bin/'+comp_dir+'/c_testpoisson', source='testpoisson.c')
     
     cctestobj = env.StaticObject(CXXFLAGS='-O3 -g'+debug_flag,target='../bin/'+comp_dir+'/cc_testpoisson', source='testpoisson.cc')
+    benchmarkobj = env.StaticObject(F90FLAGS='-O3 -g',target='../bin/'+comp_dir+'/benchmark', source='benchmark.f90')
+    benchmarkobj = list(filter(lambda o: str(o)[-4:] != '.mod', benchmarkobj))
     
     test = env.Program(LINKFLAGS=omp_flag+debug_flag, LIBS=['fftw3','fftw3f','fftw3_omp'],target='../bin/'+comp_dir+'/testpoisson'+suffix, source = sobjs + testobj)
     test += env.Program(LINK=env['CC'],LINKFLAGS=omp_flag+debug_flag, LIBS=['m','fftw3','fftw3f','fftw3_omp']+fortran_libs,target='../bin/'+comp_dir+'/c_testpoisson', source = sobjs + ctestobj)
     test += env.Program(LINK=env['CXX'], LINKFLAGS=omp_flag+debug_flag, LIBS=['m','fftw3','fftw3f','fftw3_omp']+fortran_libs,target='../bin/'+comp_dir+'/cc_testpoisson', source = sobjs + cctestobj)
+    test += env.Program(LINKFLAGS=omp_flag+debug_flag, LIBS=['fftw3','fftw3f','fftw3_omp'],target='../bin/'+comp_dir+'/benchmark', source = sobjs + benchmarkobj)
     env.Alias('test',['../bin/'+comp_dir+'/testpoisson'+suffix,
                       '../bin/'+comp_dir+'/c_testpoisson',
-                      '../bin/'+comp_dir+'/cc_testpoisson'])
+                      '../bin/'+comp_dir+'/cc_testpoisson',
+                      '../bin/'+comp_dir+'/benchmark'])
 
 Default(lib)
