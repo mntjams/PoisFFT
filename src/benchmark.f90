@@ -60,7 +60,7 @@ program benchmark
   ! First arg is unit - acts as a file handle that we can later
   ! reference when writing
   open(unit=10, file=trim(out_filename), status='replace')
-  write(10, '(A)') "dim,precision,solver_type,api,bc_name,grid_size,total_execution_ms"
+  write(10, '(A)') "dim,precision,solver_type,api,bc_name,grid_size,iteration,total_execution_ms"
   
   if (trim(float_precision) == "float") then
     call run_benchmarks_sp(solver_dim, use_nonuniform_z, measurement_iters, &
@@ -196,9 +196,9 @@ contains
         call system_clock(t2)
         dt = real(t2 - t1, c_double) / real(count_rate, c_double) * 1000.0_c_double
         
-        write(10, '(I0,6A,I0,A,F15.6)') dim, ",double,", &
+        write(10, '(I0,6A,I0,A,I0,A,F15.6)') dim, ",double,", &
              trim(merge("nonuniform_z", "uniform     ", use_nonuniform_z)), ",PoisFFT,", &
-             '"', trim(bc_name), '",', size, ',', dt
+             '"', trim(bc_name), '",', size, ',', (it-1), ',', dt
       end do
 
       if (dim == 1) deallocate(Phi1D, RHS1D)
@@ -330,9 +330,9 @@ contains
         
         dt = real(t2 - t1, c_double) / real(count_rate, c_double) * 1000.0_c_double
         
-        write(10, '(I0,6A,I0,A,F15.6)') dim, ",float,", &
+        write(10, '(I0,6A,I0,A,I0,A,F15.6)') dim, ",float,", &
              trim(merge("nonuniform_z", "uniform     ", use_nonuniform_z)), ",PoisFFT,", &
-             '"', trim(bc_name), '",', size, ',', dt
+             '"', trim(bc_name), '",', size, ',', (it-1), ',', dt
       end do
 
       if (dim == 1) deallocate(Phi1D, RHS1D)
