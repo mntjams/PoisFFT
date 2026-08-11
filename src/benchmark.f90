@@ -307,21 +307,27 @@ contains
           Phi3D = 0.0_c_float
         end if
         
-        call system_clock(t1)
         
         if (dim == 1) then
+          call system_clock(t1)
           call Execute(S1, Phi1D, RHS1D)
+          call system_clock(t2)
         else if (dim == 2) then
+          call system_clock(t1)
           call Execute(S2, Phi2D, RHS2D)
+          call system_clock(t2)
         else if (dim == 3) then
           if (use_nonuniform_z) then
+            call system_clock(t1)
             call Execute(S3_nz, Phi3D, RHS3D)
+            call system_clock(t2)
           else
+            call system_clock(t1)
             call Execute(S3, Phi3D, RHS3D)
+            call system_clock(t2)
           end if
         end if
         
-        call system_clock(t2)
         dt = real(t2 - t1, c_double) / real(count_rate, c_double) * 1000.0_c_double
         
         write(10, '(I0,6A,I0,A,F15.6)') dim, ",float,", &
