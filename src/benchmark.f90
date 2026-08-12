@@ -53,8 +53,16 @@ program benchmark
   do i = 1, 2*solver_dim
     call get_command_argument(8 + i, arg)
     BCs(i) = ParseBC(trim(arg))
-    if (i > 1) bc_name = trim(bc_name) // " "
-    bc_name = trim(bc_name) // trim(arg)
+
+    if (i > 1) bc_name = trim(bc_name) // " | "
+
+    if (trim(arg) == "DS") then
+      bc_name = trim(bc_name) // "Ds"
+    else if (trim(arg) == "NS") then
+      bc_name = trim(bc_name) // "Ns"
+    else
+      bc_name = trim(bc_name) // trim(arg)
+    end if
   end do
   
   ! First arg is unit - acts as a file handle that we can later
