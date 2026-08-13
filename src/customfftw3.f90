@@ -543,6 +543,15 @@ use iso_c_binding
       import
     end function fftw_init_threads
 
+    subroutine fftwf_plan_with_nthreads(nthreads) bind(C, name='fftwf_plan_with_nthreads')
+      import
+      integer(C_INT), value :: nthreads
+    end subroutine fftwf_plan_with_nthreads
+
+    integer(C_INT) function fftwf_init_threads() bind(C, name='fftwf_init_threads')
+      import
+    end function fftwf_init_threads
+
     subroutine fftw_cleanup_threads() bind(C, name='fftw_cleanup_threads')
       import
     end subroutine fftw_cleanup_threads

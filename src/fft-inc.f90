@@ -611,13 +611,15 @@
     subroutine PoisFFT_InitThreads(nthreads)  !instructs fftw to plan to use nthreads threads
       integer, intent(in) :: nthreads
 #if defined(_OPENMP) || defined(ENABLE_PTHREADS)
-      integer(c_int) :: error
+      integer(c_int) :: error, errorf
       error =  fftw_init_threads()
+      errorf = fftwf_init_threads()
 
-      if (error==0) then
+      if (error==0 .or. errorf==0) then
         write(*,*) "Error when initializing FFTW for threads."
       else
         call fftw_plan_with_nthreads(int(nthreads,c_int))
+        call fftwf_plan_with_nthreads(int(nthreads,c_int))
       end if
 #endif
     end subroutine PoisFFT_InitThreads
