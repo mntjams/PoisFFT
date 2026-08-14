@@ -182,14 +182,29 @@ contains
       do it = 1, measurement_iters
         print *, "    Iteration ", it-1
         if (dim == 1) then
-          call random_number(RHS1D)
-          Phi1D = 0.0_c_double
+!$omp parallel do
+          do i = 1, nx
+            call random_number(RHS1D(i))
+            Phi1D(i) = 0.0_c_double
+          end do
         else if (dim == 2) then
-          call random_number(RHS2D)
-          Phi2D = 0.0_c_double
+!$omp parallel do collapse(2)
+          do j = 1, ny
+            do i = 1, nx
+              call random_number(RHS2D(i,j))
+              Phi2D(i,j) = 0.0_c_double
+            end do
+          end do
         else
-          call random_number(RHS3D)
-          Phi3D = 0.0_c_double
+!$omp parallel do collapse(3)
+          do k = 1, nz
+            do j = 1, ny
+              do i = 1, nx
+                call random_number(RHS3D(i,j,k))
+                Phi3D(i,j,k) = 0.0_c_double
+              end do
+            end do
+          end do
         end if
         
         call system_clock(t1)
@@ -310,14 +325,29 @@ contains
       do it = 1, measurement_iters
         print *, "    Iteration ", it-1
         if (dim == 1) then
-          call random_number(RHS1D)
-          Phi1D = 0.0_c_float
+!$omp parallel do
+          do i = 1, nx
+            call random_number(RHS1D(i))
+            Phi1D(i) = 0.0_c_float
+          end do
         else if (dim == 2) then
-          call random_number(RHS2D)
-          Phi2D = 0.0_c_float
+!$omp parallel do collapse(2)
+          do j = 1, ny
+            do i = 1, nx
+              call random_number(RHS2D(i,j))
+              Phi2D(i,j) = 0.0_c_float
+            end do
+          end do
         else
-          call random_number(RHS3D)
-          Phi3D = 0.0_c_float
+!$omp parallel do collapse(3)
+          do k = 1, nz
+            do j = 1, ny
+              do i = 1, nx
+                call random_number(RHS3D(i,j,k))
+                Phi3D(i,j,k) = 0.0_c_float
+              end do
+            end do
+          end do
         end if
         
         
