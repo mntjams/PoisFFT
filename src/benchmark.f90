@@ -5,6 +5,7 @@ program benchmark
   implicit none
   
   character(len=256) :: arg
+  character(len=10) :: append_str
   character(len=256) :: float_precision, use_nonuniform_z_str, out_filename
   integer :: solver_dim
   logical :: use_nonuniform_z
@@ -54,14 +55,18 @@ program benchmark
     call get_command_argument(8 + i, arg)
     BCs(i) = ParseBC(trim(arg))
 
-    if (i > 1) bc_name = trim(bc_name) // " | "
-
     if (trim(arg) == "DS") then
-      bc_name = trim(bc_name) // "Ds"
+      append_str = "Ds"
     else if (trim(arg) == "NS") then
-      bc_name = trim(bc_name) // "Ns"
+      append_str = "Ns"
     else
-      bc_name = trim(bc_name) // trim(arg)
+      append_str = trim(arg)
+    end if
+
+    if (i > 1) then
+      bc_name = trim(bc_name) // " | " // trim(append_str)
+    else
+      bc_name = trim(append_str)
     end if
   end do
   
