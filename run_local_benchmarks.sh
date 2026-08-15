@@ -2,7 +2,7 @@
 
 set -ueo pipefail
 
-NODE="volta05"
+NODE="bw01"
 
 for CORES in 16 32 48; do
     echo "=========================================================="
