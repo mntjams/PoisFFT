@@ -1056,6 +1056,19 @@ program testpoisson_MPI
  
  
   call MPI_Barrier(glob_comm,ie)
+
+  if (master) write(*,*) "3D DDP"
+
+  call compute3d([(PoisFFT_DirichletStag, i=1,4),(PoisFFT_Periodic, i=5,6)])
+
+
+  call MPI_Barrier(glob_comm,ie)
+
+  if (master) write(*,*) "3D 2real1real DsDsDsDsNsNs"
+
+  call compute3d([(PoisFFT_DirichletStag, i=1,4),(PoisFFT_NeumannStag, i=5,6)])
+
+  call MPI_Barrier(glob_comm,ie)
   
   if (master) write(*,*) "3D PPDN"
 
