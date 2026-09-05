@@ -224,6 +224,9 @@ if str(mpi)=='yes':
       
     testobj = env.StaticObject(F90FLAGS='-O3 -g',target='../bin/'+comp_dir+'/testmpi'+suffix, source='testmpi'+suffix+'.f90')
     testobj = list(filter(lambda o: str(o)[-4:] != '.mod', testobj))
+
+    benchmarkobj = env.StaticObject(F90FLAGS='-O3 -g',target='../bin/'+comp_dir+'/benchmark_mpi', source='benchmark_mpi.f90')
+    benchmarkobj = list(filter(lambda o: str(o)[-4:] != '.mod', benchmarkobj))
     
     libs = ['fftw3_mpi','fftw3f_mpi','fftw3','fftw3f','fftw3_omp','fftw3f_omp']
     if openmp=='yes':
@@ -231,7 +234,8 @@ if str(mpi)=='yes':
     else:
       libs = ['pfft','pfftf'] + libs
     test = env.Program(LINKFLAGS=omp_flag+debug_flag, LIBS=libs,target='../bin/'+comp_dir+'/testmpi'+suffix, source = sobjs + testobj)
-    env.Alias('test',['../bin/'+comp_dir+'/testmpi'+suffix])
+    test += env.Program(LINKFLAGS=omp_flag+debug_flag, LIBS=libs,target='../bin/'+comp_dir+'/benchmark_mpi', source = sobjs + benchmarkobj)
+    env.Alias('test',['../bin/'+comp_dir+'/testmpi'+suffix, '../bin/'+comp_dir+'/benchmark_mpi'])
 
 else:
     #Intel Fortran 14 causes infinite compilation for -O3 here. It is not very important to optimize the main test program.
