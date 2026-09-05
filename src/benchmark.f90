@@ -144,14 +144,14 @@ contains
       nz = size
 
       if (dim == 1) then
-        allocate(Phi1D(nx))
-        allocate(RHS1D(nx))
+        allocate(Phi1D(0:nx+1))
+        allocate(RHS1D(0:nx+1))
       else if (dim == 2) then
-        allocate(Phi2D(nx, ny))
-        allocate(RHS2D(nx, ny))
+        allocate(Phi2D(0:nx+1, 0:ny+1))
+        allocate(RHS2D(0:nx+1, 0:ny+1))
       else if (dim == 3) then
-        allocate(Phi3D(nx, ny, nz))
-        allocate(RHS3D(nx, ny, nz))
+        allocate(Phi3D(0:nx+1, 0:ny+1, 0:nz+1))
+        allocate(RHS3D(0:nx+1, 0:ny+1, 0:nz+1))
       endif
       
       if (dim == 1) then
@@ -293,14 +293,14 @@ contains
       nz = size
 
       if (dim == 1) then
-        allocate(Phi1D(nx))
-        allocate(RHS1D(nx))
+        allocate(Phi1D(0:nx+1))
+        allocate(RHS1D(0:nx+1))
       else if (dim == 2) then
-        allocate(Phi2D(nx, ny))
-        allocate(RHS2D(nx, ny))
+        allocate(Phi2D(0:nx+1, 0:ny+1))
+        allocate(RHS2D(0:nx+1, 0:ny+1))
       else if (dim == 3) then
-        allocate(Phi3D(nx, ny, nz))
-        allocate(RHS3D(nx, ny, nz))
+        allocate(Phi3D(0:nx+1, 0:ny+1, 0:nz+1))
+        allocate(RHS3D(0:nx+1, 0:ny+1, 0:nz+1))
       endif
       
       if (dim == 1) then
