@@ -225,7 +225,7 @@ if str(mpi)=='yes':
     testobj = env.StaticObject(F90FLAGS='-O3 -g',target='../bin/'+comp_dir+'/testmpi'+suffix, source='testmpi'+suffix+'.f90')
     testobj = list(filter(lambda o: str(o)[-4:] != '.mod', testobj))
 
-    benchmarkobj = env.StaticObject(F90FLAGS='-O3 -g',target='../bin/'+comp_dir+'/benchmark_mpi', source='benchmark_mpi.f90')
+    benchmarkobj = env.StaticObject(F90FLAGS='-O3 -g'+omp_flag,target='../bin/'+comp_dir+'/benchmark_mpi', source='benchmark_mpi.f90')
     benchmarkobj = list(filter(lambda o: str(o)[-4:] != '.mod', benchmarkobj))
     
     libs = ['fftw3_mpi','fftw3f_mpi','fftw3','fftw3f','fftw3_omp','fftw3f_omp']
@@ -250,7 +250,7 @@ else:
     ctestobj = env.StaticObject(CFLAGS='-O3 -g'+debug_flag,target='../bin/'+comp_dir+'/c_testpoisson', source='testpoisson.c')
     
     cctestobj = env.StaticObject(CXXFLAGS='-O3 -g'+debug_flag,target='../bin/'+comp_dir+'/cc_testpoisson', source='testpoisson.cc')
-    benchmarkobj = env.StaticObject(F90FLAGS='-O3 -g',target='../bin/'+comp_dir+'/benchmark', source='benchmark.f90')
+    benchmarkobj = env.StaticObject(F90FLAGS='-O3 -g'+omp_flag,target='../bin/'+comp_dir+'/benchmark', source='benchmark.f90')
     benchmarkobj = list(filter(lambda o: str(o)[-4:] != '.mod', benchmarkobj))
     
     test = env.Program(LINKFLAGS=omp_flag+debug_flag, LIBS=['fftw3','fftw3f','fftw3_omp','fftw3f_omp'],target='../bin/'+comp_dir+'/testpoisson'+suffix, source = sobjs + testobj)
